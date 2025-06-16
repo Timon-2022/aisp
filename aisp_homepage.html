@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AISP - AI搜索表现管理平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>');
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .primary-cta {
+            background: white;
+            color: #667eea;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .primary-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .quick-search {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.75rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quick-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: white;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            outline: none;
+        }
+
+        .quick-search input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .quick-search button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .quick-search button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dashboard-preview {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .dashboard-preview h3 {
+            color: white;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .score-number {
+            font-size: 4rem;
+            color: white;
+            font-weight: 700;
+            display: block;
+        }
+
+        .score-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .metric-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .metric-value {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: block;
+        }
+
+        .metric-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* 价值主张区 */
+        .value-proposition {
+            padding: 5rem 0;
+            background: #f8fafc;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #1a202c;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pain-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .pain-point {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .pain-point:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .pain-point-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .pain-point h3 {
+            font-size: 1.3rem;
+            color: #1a202c;
+            margin-bottom: 1rem;
+        }
+
+        .pain-point p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* 产品亮点区 */
+        .product-highlights {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            transition: all 0.3s ease;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .highlight-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .highlight-card:hover .highlight-icon {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .highlight-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #1a202c;
+        }
+
+        .highlight-card:hover h3 {
+            color: white;
+        }
+
+        .highlight-card p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .highlight-card:hover p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* 成功案例 */
+        .success-stories {
+            padding: 5rem 0;
+            background: #f8fafc;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .story-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .story-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .story-header h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .story-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .story-content {
+            padding: 1.5rem;
+        }
+
+        .story-metrics {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .story-metric {
+            text-align: center;
+        }
+
+        .story-metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+
+        .story-metric-label {
+            font-size: 0.8rem;
+            color: #4a5568;
+        }
+
+        .story-description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .story-cta {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* AI 平台 Logo 区 */
+        .ai-platforms {
+            padding: 3rem 0;
+            background: white;
+        }
+
+        .platforms-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .platform-logo {
+            width: 120px;
+            height: 60px;
+            background: #f7fafc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #4a5568;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .platform-logo:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* 页脚 */
+        .footer {
+            background: #1a202c;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #a0aec0;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .quick-search {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">AISP</div>
+            <ul class="nav-links">
+                <li><a href="#product">产品介绍</a></li>
+                <li><a href="#cases">成功案例</a></li>
+                <li><a href="#consulting">咨询专家</a></li>
+                <li><a href="/login">登录</a></li>
+                <li><a href="/free-trial" class="cta-button">免费体验</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>掌控您的 AI 搜索名片，赢得未来市场先机！</h1>
+                <p>独家 AI 搜索表现指数 (AISP)，助您洞察并优化企业在 AI 时代的数字声誉。</p>
+                
+                <div class="hero-cta">
+                    <a href="/free-trial" class="primary-cta">免费体验您的 AI 搜索指数</a>
+                </div>
+                
+                <div class="quick-search">
+                    <input type="text" placeholder="输入公司名称或网址" id="companyInput">
+                    <button onclick="quickSearch()">立即查询</button>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="dashboard-preview">
+                    <h3>AI 搜索表现指数</h3>
+                    <div class="score-display">
+                        <span class="score-number" id="demoScore">75</span>
+                        <span class="score-label">综合得分</span>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <span class="metric-value">82</span>
+                            <span class="metric-label">可见度</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">71</span>
+                            <span class="metric-label">相关性</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">78</span>
+                            <span class="metric-label">情绪分析</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-value">69</span>
+                            <span class="metric-label">权威性</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 价值主张区 -->
+    <section class="value-proposition">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>AI 时代，您的企业名片正被重新定义</h2>
+                <p>传统SEO已无法应对AI搜索时代的挑战，您需要全新的数字声誉管理策略</p>
+            </div>
+            
+            <div class="pain-points">
+                <div class="pain-point">
+                    <div class="pain-point-icon">🔍</div>
+                    <h3>AI 搜索盲区</h3>
+                    <p>不知道您的企业在ChatGPT、Google Gemini等AI平台中的表现如何，错失潜在客户</p>
+                </div>
+                
+                <div class="pain-point">
+                    <div class="pain-point-icon">📉</div>
+                    <h3>传统 SEO 失效</h3>
+                    <p>传统SEO策略在AI搜索时代效果大幅下降，需要全新的优化思路和方法</p>
+                </div>
+                
+                <div class="pain-point">
+                    <div class="pain-point-icon">⚠️</div>
+                    <h3>负面信息风险</h3>
+                    <p>无法及时发现和处理AI搜索结果中的负面信息，影响品牌形象和业务发展</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品亮点区 -->
+    <section class="product-highlights" id="product">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>AISP，您的 AI 搜索专属指南</h2>
+                <p>科学评估四大核心维度，全面洞察您的AI搜索表现</p>
+            </div>
+            
+            <div class="highlights-grid">
+                <div class="highlight-card">
+                    <div class="highlight-icon">👁️</div>
+                    <h3>可见度分析</h3>
+                    <p>评估您的企业在各大AI平台搜索结果中的出现频率和位置排名</p>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="highlight-icon">🎯</div>
+                    <h3>相关性评估</h3>
+                    <p>分析AI搜索结果与您业务的匹配度，确保精准触达目标客户</p>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="highlight-icon">💭</div>
+                    <h3>情绪监测</h3>
+                    <p>实时监测AI搜索结果中的情绪倾向，及时发现和处理负面信息</p>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="highlight-icon">🏆</div>
+                    <h3>权威性建设</h3>
+                    <p>评估内容来源的权威性和可信度，提升品牌在AI搜索中的地位</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成功案例 -->
+    <section class="success-stories" id="cases">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>他们已领先一步</h2>
+                <p>看看我们如何帮助企业在AI搜索时代获得竞争优势</p>
+            </div>
+            
+            <div class="stories-grid">
+                <div class="story-card">
+                    <div class="story-header">
+                        <h3>某科技公司</h3>
+                        <p>人工智能 • 中型企业</p>
+                    </div>
+                    <div class="story-content">
+                        <div class="story-metrics">
+                            <div class="story-metric">
+                                <span class="story-metric-value">+30%</span>
+                                <span class="story-metric-label">AI推荐排名</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="story-metric-value">+45%</span>
+                                <span class="story-metric-label">品牌曝光</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="story-metric-value">+20%</span>
+                                <span class="story-metric-label">客流增长</span>
+                            </div>
+                        </div>
+                        <p class="story-description">通过AISP深度分析，发现并优化了关键负面信息，重新构建AI搜索内容策略，显著提升了品牌在AI平台的表现。</p>
+                        <a href="/success-stories/tech-company" class="story-cta">查看详细案例 →</a>
+                    </div>
+                </div>
+                
+                <div class="story-card">
+                    <div class="story-header">
+                        <h3>某金融服务公司</h3>
+                        <p>金融服务 • 大型企业</p>
+                    </div>
+                    <div class="story-content">
+                        <div class="story-metrics">
+                            <div class="story-metric">
+                                <span class="story-metric-value">+50%</span>
+                                <span class="story-metric-label">AI推荐排名</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="story-metric-value">+35%</span>
+                                <span class="story-metric-label">正面评价</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="story-metric-value">+25%</span>
+                                <span class="story-metric-label">咨询转化</span>
+                            </div>
+                        </div>
+                        <p class="story-description">建立了完整的AI搜索声誉管理体系，持续监测和优化，在激烈的金融市场竞争中脱颖而出。</p>
+                        <a href="/success-stories/finance-company" class="story-cta">查看详细案例 →</a>
+                    </div>
+                </div>
+                
+                <div class="story-card">
+                    <div class="story-header">
+                        <h3>某制造业企业</h3>
+                        <p>智能制造 • 中型企业</p>
+                    </div>
+                    <div class="story-content">
+                        <div class="story-metrics">
+                            <div class="story-metric">
+                                <span class="story-metric-value">+40%</span>
+                                <span class="story-metric-label">AI搜索曝光</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="story-metric-value">+60%</span>
+                                <span class="story-metric-label">海外询盘</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="story-metric-value">+30%</span>
+                                <span class="story-metric-label">订单转化</span>
+                            </div>
+                        </div>
+                        <p class="story-description">针对B2B市场特点，优化了专业内容在AI搜索中的表现，成功拓展了海外市场。</p>
+                        <a href="/success-stories/manufacturing-company" class="story-cta">查看详细案例 →</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="/success-stories" class="cta-button">查看更多成功案例</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI 平台 Logo 区 -->
+    <section class="ai-platforms">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>覆盖主流 AI 搜索平台</h2>
+                <p>全面评估您在各大AI平台的搜索表现</p>
+            </div>
+            
+            <div class="platforms-grid">
+                <div class="platform-logo">ChatGPT</div>
+                <div class="platform-logo">Google Gemini</div>
+                <div class="platform-logo">Microsoft Copilot</div>
+                <div class="platform-logo">Kimi AI</div>
+                <div class="platform-logo">DeepSeek AI</div>
+                <div class="platform-logo">Claude AI</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AISP 平台</h3>
+                <p>专业的AI搜索表现管理平台，助力企业在AI时代获得竞争优势。</p>
+                <p>让AI搜索成为您业务增长的新引擎。</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>产品服务</h3>
+                <p><a href="/product">AISP评估报告</a></p>
+                <p><a href="/consulting">AI搜索优化咨询</a></p>
+                <p><a href="/free-trial">免费体验</a></p>
+                <p><a href="/success-stories">成功案例</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>支持与帮助</h3>
+                <p><a href="/help">帮助中心</a></p>
+                <p><a href="/contact">联系我们</a></p>
+                <p><a href="/privacy">隐私政策</a></p>
+                <p><a href="/terms">服务条款</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>联系方式</h3>
+                <p>📧 contact@aisp.com</p>
+                <p>📱 400-123-4567</p>
+                <p>🏢 北京市朝阳区xxx大厦</p>
+                <p>💬 微信: AISP_Service</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 AISP AI搜索表现管理平台. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 动态分数动画
+        function animateScore() {
+            const scoreElement = document.getElementById('demoScore');
+            let currentScore = 0;
+            const targetScore = 75;
+            const duration = 2000;
+            const increment = targetScore / (duration / 50);
+            
+            const timer = setInterval(() => {
+                currentScore += increment;
+                if (currentScore >= targetScore) {
+                    currentScore = targetScore;
+                    clearInterval(timer);
+                }
+                scoreElement.textContent = Math.round(currentScore);
+            }, 50);
+        }
+
+        // 快速搜索功能
+        function quickSearch() {
+            const input = document.getElementById('companyInput');
+            const company = input.value.trim();
+            
+            if (!company) {
+                alert('请输入公司名称或网址');
+                return;
+            }
+            
+            // 模拟跳转到免费试用页面
+            window.location.href = `/free-trial?company=${encodeURIComponent(company)}`;
+        }
+
+        // 导航栏滚动效果
+        function handleNavbarScroll() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        }
+
+        // 平滑滚动到锚点
+        function smoothScrollToAnchor() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // 元素进入视窗动画
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            // 观察需要动画的元素
+            document.querySelectorAll('.pain-point, .highlight-card, .story-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        }
+
+        // 输入框回车事件
+        function setupInputEvents() {
+            const input = document.getElementById('companyInput');
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    quickSearch();
+                }
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 启动分数动画
+            setTimeout(animateScore, 1000);
+            
+            // 设置滚动监听
+            window.addEventListener('scroll', handleNavbarScroll);
+            
+            // 设置平滑滚动
+            smoothScrollToAnchor();
+            
+            // 设置元素观察器
+            observeElements();
+            
+            // 设置输入事件
+            setupInputEvents();
+        });
+
+        // 移动端菜单切换（如果需要）
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('show');
+        }
+
+        // 添加移动端菜单按钮（响应式优化）
+        if (window.innerWidth <= 768) {
+            const navbar = document.querySelector('.nav-container');
+            const menuButton = document.createElement('button');
+            menuButton.innerHTML = '☰';
+            menuButton.className = 'mobile-menu-btn';
+            menuButton.style.cssText = `
+                display: block;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: #333;
+                cursor: pointer;
+            `;
+            menuButton.onclick = toggleMobileMenu;
+            navbar.appendChild(menuButton);
+        }
+    </script>
+
+    <style>
+        /* 添加移动端菜单样式 */
+        @media (max-width: 768px) {
+            .nav-links.show {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block !important;
+            }
+        }
+        
+        /* 确保在大屏幕上隐藏移动端菜单按钮 */
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none !important;
+            }
+        }
+    </style>
+</body>
+</html>
