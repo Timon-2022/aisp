@@ -152,7 +152,7 @@
         /* Hero Section */
         .hero {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             position: relative;
             display: flex;
             align-items: center;
@@ -166,14 +166,40 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>');
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.15)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="200" r="120" fill="url(%23a)"/><circle cx="800" cy="300" r="180" fill="url(%23a)"/><circle cx="400" cy="700" r="140" fill="url(%23a)"/><circle cx="900" cy="800" r="100" fill="url(%23a)"/><circle cx="100" cy="600" r="80" fill="url(%23a)"/></svg>');
+            opacity: 0.4;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="b" cx="50%" cy="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.08)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="300" cy="400" r="90" fill="url(%23b)"/><circle cx="700" cy="200" r="110" fill="url(%23b)"/><circle cx="600" cy="800" r="130" fill="url(%23b)"/></svg>');
             opacity: 0.3;
-            animation: float 20s ease-in-out infinite;
+            animation: float 30s ease-in-out infinite reverse;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) rotate(0deg); 
+                opacity: 0.4;
+            }
+            25% { 
+                transform: translateY(-15px) translateX(10px) rotate(90deg); 
+                opacity: 0.6;
+            }
+            50% { 
+                transform: translateY(-25px) translateX(-5px) rotate(180deg); 
+                opacity: 0.5;
+            }
+            75% { 
+                transform: translateY(-10px) translateX(15px) rotate(270deg); 
+                opacity: 0.7;
+            }
         }
 
         .hero-container {
@@ -189,18 +215,22 @@
         }
 
         .hero-content h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             color: white;
             margin-bottom: 1.5rem;
-            line-height: 1.2;
-            font-weight: 700;
+            line-height: 1.1;
+            font-weight: 800;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            letter-spacing: -0.02em;
         }
 
         .hero-content p {
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2rem;
-            line-height: 1.6;
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+            font-weight: 400;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .hero-cta {
@@ -212,28 +242,55 @@
         .primary-cta {
             background: white;
             color: #667eea;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2.5rem;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+        }
+
+        .primary-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.6s ease;
         }
 
         .primary-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            background: #667eea;
+            color: white;
+        }
+
+        .primary-cta:hover::before {
+            left: 100%;
+        }
+
+        .primary-cta:active {
+            transform: translateY(-2px) scale(0.98);
         }
 
         .quick-search {
             display: flex;
             gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
             border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .quick-search input {
@@ -241,28 +298,46 @@
             border: none;
             background: transparent;
             color: white;
-            font-size: 1rem;
-            padding: 0.5rem 1rem;
+            font-size: 1.1rem;
+            padding: 0.75rem 1.2rem;
             outline: none;
+            font-weight: 500;
         }
 
         .quick-search input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+        }
+
+        .quick-search input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
         }
 
         .quick-search button {
-            background: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
             color: white;
             border: none;
-            padding: 0.5rem 1.5rem;
+            padding: 0.75rem 1.8rem;
             border-radius: 25px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .quick-search button:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.25));
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            color: #667eea;
+        }
+
+        .quick-search button:active {
+            transform: translateY(0);
         }
 
         .hero-visual {
@@ -274,66 +349,92 @@
         .dashboard-preview {
             width: 100%;
             max-width: 500px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
             border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: pulse 3s ease-in-out infinite;
+            padding: 2.5rem;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            animation: pulse 4s ease-in-out infinite;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            }
+            50% { 
+                transform: scale(1.02); 
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            }
         }
 
         .dashboard-preview h3 {
             color: white;
             text-align: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .score-display {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .score-number {
-            font-size: 4rem;
+            font-size: 4.5rem;
             color: white;
-            font-weight: 700;
+            font-weight: 800;
             display: block;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            line-height: 1;
         }
 
         .score-label {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
         }
 
         .metrics-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 1.2rem;
         }
 
         .metric-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1.2rem;
+            border-radius: 12px;
             text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .metric-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
         .metric-value {
             color: white;
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 1.8rem;
+            font-weight: 700;
             display: block;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .metric-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-top: 0.3rem;
         }
 
         /* 价值主张区 */
@@ -673,6 +774,84 @@
                 font-size: 0.85rem;
             }
         }
+
+        /* Hero Section 响应式优化 */
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.8rem;
+                line-height: 1.2;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .primary-cta {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+            
+            .quick-search {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .quick-search input {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .quick-search button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            
+            .dashboard-preview {
+                padding: 2rem;
+                max-width: 100%;
+            }
+            
+            .score-number {
+                font-size: 3.5rem;
+            }
+            
+            .metrics-grid {
+                gap: 1rem;
+            }
+            
+            .metric-item {
+                padding: 1rem;
+            }
+            
+            .metric-value {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .primary-cta {
+                padding: 0.9rem 1.8rem;
+                font-size: 1rem;
+            }
+            
+            .score-number {
+                font-size: 3rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -958,8 +1137,8 @@
             const scoreElement = document.getElementById('demoScore');
             let currentScore = 0;
             const targetScore = 75;
-            const duration = 2000;
-            const increment = targetScore / (duration / 50);
+            const duration = 2500;
+            const increment = targetScore / (duration / 30);
             
             const timer = setInterval(() => {
                 currentScore += increment;
@@ -968,7 +1147,7 @@
                     clearInterval(timer);
                 }
                 scoreElement.textContent = Math.round(currentScore);
-            }, 50);
+            }, 30);
         }
 
         // 快速搜索功能
@@ -981,8 +1160,9 @@
                 return;
             }
             
-            // 模拟跳转到免费试用页面
-            window.location.href = `/free-trial?company=${encodeURIComponent(company)}`;
+            // 跳转到免费试用页面，并传递公司名称作为URL参数
+            const encodedCompany = encodeURIComponent(company);
+            window.location.href = `/free-trial?company=${encodedCompany}`;
         }
 
         // 导航栏滚动效果
@@ -1048,8 +1228,8 @@
 
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', function() {
-            // 启动分数动画
-            setTimeout(animateScore, 1000);
+            // 启动分数动画，延迟1.5秒开始
+            setTimeout(animateScore, 1500);
             
             // 设置滚动监听
             window.addEventListener('scroll', handleNavbarScroll);
