@@ -546,101 +546,145 @@
             font-weight: 400;
         }
 
-        /* 产品亮点区 */
+        /* 产品亮点区强调感优化 */
         .product-highlights {
-            padding: 6rem 0;
+            padding: 7rem 0 5rem 0;
             background: white;
         }
-
+        .product-highlights .section-header {
+            margin-bottom: 3.5rem;
+        }
+        .product-highlights .section-header h2 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: #22223b;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.2rem;
+            text-shadow: 0 6px 32px rgba(102, 126, 234, 0.10);
+        }
+        .product-highlights .section-header p {
+            font-size: 1.4rem;
+            color: #4a5568;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
         .highlights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
             gap: 2.5rem;
         }
-
         .highlight-card {
-            text-align: center;
-            padding: 2.5rem;
-            border-radius: 20px;
+            flex: 1 1 0;
+            max-width: 320px;
+            min-width: 220px;
             background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 24px;
+            box-shadow: 0 12px 48px rgba(102, 126, 234, 0.13), 0 2px 8px rgba(0,0,0,0.04);
+            border: 1.5px solid #e0e7ff;
+            padding: 2.8rem 2rem 2.2rem 2rem;
+            text-align: center;
             position: relative;
             overflow: hidden;
+            transition: box-shadow 0.4s, transform 0.4s;
         }
-
-        .highlight-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 1;
-        }
-
         .highlight-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 16px 48px rgba(102, 126, 234, 0.15);
+            box-shadow: 0 24px 64px rgba(102, 126, 234, 0.18), 0 4px 16px rgba(0,0,0,0.08);
+            transform: translateY(-8px) scale(1.03);
+            border-color: #a5b4fc;
         }
-
-        .highlight-card:hover::before {
-            opacity: 1;
-        }
-
         .highlight-icon {
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: 100px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 2rem;
-            font-size: 2.2rem;
+            font-size: 2.7rem;
             color: white;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-            transition: all 0.4s ease;
-            position: relative;
-            z-index: 2;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.18);
+            transition: all 0.4s;
         }
-
-        .highlight-card:hover .highlight-icon {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-            box-shadow: 0 12px 35px rgba(255, 255, 255, 0.3);
-        }
-
         .highlight-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1.2rem;
-            color: #1a202c;
-            font-weight: 700;
-            line-height: 1.3;
-            position: relative;
-            z-index: 2;
-            transition: color 0.4s ease;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #22223b;
+            margin-bottom: 1.1rem;
+            letter-spacing: 0.01em;
         }
-
-        .highlight-card:hover h3 {
-            color: white;
-        }
-
         .highlight-card p {
             color: #4a5568;
+            font-size: 1.05rem;
             line-height: 1.7;
-            font-size: 1rem;
-            font-weight: 400;
-            position: relative;
-            z-index: 2;
-            transition: color 0.4s ease;
+            font-weight: 500;
+        }
+        @media (max-width: 1200px) {
+            .highlights-grid {
+                flex-wrap: wrap;
+                gap: 2rem;
+            }
+            .highlight-card {
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 900px) {
+            .highlights-grid {
+                flex-direction: column;
+                align-items: center;
+            }
         }
 
-        .highlight-card:hover p {
-            color: rgba(255, 255, 255, 0.95);
+        /* AI 平台 Logo 区视觉优化 */
+        .ai-platforms {
+            padding: 4rem 0;
+            background: white;
+        }
+        .ai-platforms .section-header h2 {
+            font-size: 2.5rem;
+            color: #1a202c;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .ai-platforms .section-header p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 2rem;
+        }
+        .platforms-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        .platform-logo {
+            width: 120px;
+            height: 60px;
+            background: #f7fafc;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #4a5568;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        .platform-logo:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border-color: #667eea;
+            box-shadow: 0 6px 24px rgba(102, 126, 234, 0.18);
+            transform: translateY(-4px) scale(1.05);
+        }
+        .platform-logo:active {
+            transform: scale(0.98);
         }
 
         /* 成功案例 */
@@ -651,7 +695,7 @@
 
         .stories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 2.5rem;
             margin-bottom: 3rem;
         }
@@ -776,79 +820,72 @@
             width: 100%;
         }
 
-        /* AI 平台 Logo 区 */
-        .ai-platforms {
-            padding: 3rem 0;
-            background: white;
-        }
-
-        .platforms-grid {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .platform-logo {
-            width: 120px;
-            height: 60px;
-            background: #f7fafc;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: #4a5568;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .platform-logo:hover {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        /* 页脚 */
+        /* 页脚分栏布局与视觉优化 */
         .footer {
             background: #1a202c;
             color: white;
             padding: 3rem 0 1rem;
         }
-
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+            padding: 0 2rem;
         }
-
         .footer-section h3 {
-            margin-bottom: 1rem;
-            color: #667eea;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: #f093fb;
+            letter-spacing: 0.02em;
         }
-
-        .footer-section p,
-        .footer-section a {
-            color: #a0aec0;
+        .footer-section p, .footer-section a {
+            font-size: 1rem;
+            color: #e2e8f0;
+            margin-bottom: 0.7rem;
+            line-height: 1.7;
             text-decoration: none;
-            line-height: 1.8;
+            transition: color 0.3s;
         }
-
         .footer-section a:hover {
-            color: white;
+            color: #fff;
+            text-decoration: underline;
         }
-
+        .footer-section p:last-child, .footer-section a:last-child {
+            margin-bottom: 0;
+        }
         .footer-bottom {
             text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid #2d3748;
-            color: #a0aec0;
+            margin-top: 2.5rem;
         }
+        .footer-bottom p {
+            font-size: 0.95rem;
+            color: #a0aec0;
+            letter-spacing: 0.01em;
+        }
+        @media (max-width: 900px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+        @media (max-width: 600px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 1rem;
+            }
+            .footer-section {
+                margin-bottom: 1.5rem;
+            }
+        }
+        /* 代码注释：
+           - 页脚采用grid分栏，保证多端间距和对齐
+           - 链接hover高亮，提升可用性
+           - 版权信息字体柔和，适合夜间模式
+        */
 
         /* 响应式设计 */
         @media (max-width: 768px) {
@@ -869,11 +906,23 @@
             }
             
             .nav-links {
-                gap: 1.5rem;
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                padding: 1rem 0;
+                gap: 1.2rem;
+                z-index: 999;
             }
-            
-            .nav-links a {
-                font-size: 0.9rem;
+            .nav-links.show {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: block !important;
             }
             
             .cta-button {
@@ -881,6 +930,16 @@
                 font-size: 0.9rem;
             }
         }
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none !important;
+            }
+        }
+        /* 代码注释：
+           - .nav-links 默认隐藏，.show类控制显示
+           - .mobile-menu-btn 仅移动端显示
+           - 保证菜单展开时为垂直堆叠，且有阴影和背景
+        */
 
         @media (max-width: 480px) {
             .nav-links {
@@ -1047,21 +1106,6 @@
                 font-size: 1.5rem;
             }
             
-            .highlights-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .highlight-card {
-                padding: 2rem;
-            }
-            
-            .highlight-icon {
-                width: 80px;
-                height: 80px;
-                font-size: 2rem;
-            }
-            
             .stories-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
@@ -1110,6 +1154,24 @@
                 padding: 0.9rem 2rem;
                 font-size: 1rem;
             }
+        }
+
+        /* 成功案例区2x2布局 */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        @media (max-width: 900px) {
+            .stories-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+        /* 只显示前4个案例 */
+        .stories-grid .story-card:nth-child(n+5) {
+            display: none;
         }
     </style>
 </head>
@@ -1324,6 +1386,31 @@
                         <a href="/success-stories/manufacturing-company" class="story-cta">查看详细案例 →</a>
                     </div>
                 </div>
+
+                <div class="story-card">
+                    <div class="story-header">
+                        <h3>某餐饮连锁门店</h3>
+                        <p>餐饮服务 • 连锁门店</p>
+                    </div>
+                    <div class="story-content">
+                        <div class="story-metrics">
+                            <div class="story-metric">
+                                <span class="story-metric-value">+55%</span>
+                                <span class="story-metric-label">AI推荐曝光</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="story-metric-value">+38%</span>
+                                <span class="story-metric-label">门店客流</span>
+                            </div>
+                            <div class="story-metric">
+                                <span class="story-metric-value">+25%</span>
+                                <span class="story-metric-label">好评率</span>
+                            </div>
+                        </div>
+                        <p class="story-description">通过AISP平台，优化了品牌在AI搜索平台的内容呈现，提升了门店在本地AI推荐中的排名，显著增加了新客流和好评数量。</p>
+                        <a href="/success-stories/restaurant-chain" class="story-cta">查看详细案例 →</a>
+                    </div>
+                </div>
             </div>
             
             <div class="view-more-stories">
@@ -1332,21 +1419,54 @@
         </div>
     </section>
 
-    <!-- AI 平台 Logo 区 -->
-    <section class="ai-platforms">
+    <!-- AI平台Logo区下方主流平台展示 -->
+    <section class="ai-platforms" id="ai-platforms">
         <div class="section-container">
             <div class="section-header">
-                <h2>覆盖主流 AI 搜索平台</h2>
-                <p>全面评估您在各大AI平台的搜索表现</p>
+                <h2>覆盖主流搜索与AI平台</h2>
+                <p>我们支持并集成了全球主流AI搜索与内容平台，助力企业全方位提升数字表现</p>
             </div>
-            
             <div class="platforms-grid">
                 <div class="platform-logo">ChatGPT</div>
-                <div class="platform-logo">Google Gemini</div>
+                <div class="platform-logo">DeepSeek</div>
+                <div class="platform-logo">Gemini</div>
+                <div class="platform-logo">Claude</div>
+                <div class="platform-logo">Midjourney</div>
+                <div class="platform-logo">Poe</div>
+                <div class="platform-logo">Perplexity AI</div>
+                <div class="platform-logo">Hugging Face</div>
+                <div class="platform-logo">Canva</div>
+                <div class="platform-logo">DeepL</div>
+                <div class="platform-logo">Remove.bg</div>
+                <div class="platform-logo">Grammarly</div>
+                <div class="platform-logo">Character.ai</div>
+                <div class="platform-logo">Quizizz</div>
+                <div class="platform-logo">Zapier</div>
                 <div class="platform-logo">Microsoft Copilot</div>
-                <div class="platform-logo">Kimi AI</div>
-                <div class="platform-logo">DeepSeek AI</div>
-                <div class="platform-logo">Claude AI</div>
+                <div class="platform-logo">CapCut</div>
+                <div class="platform-logo">DeepAI</div>
+                <div class="platform-logo">QuillBot</div>
+                <div class="platform-logo">Suno</div>
+                <div class="platform-logo">ElevenLabs</div>
+                <div class="platform-logo">InVideo</div>
+                <div class="platform-logo">Leonardo</div>
+                <div class="platform-logo">Replit</div>
+                <div class="platform-logo">Consensus</div>
+                <div class="platform-logo">Janitor AI</div>
+                <div class="platform-logo">Runway</div>
+                <div class="platform-logo">Luma AI</div>
+                <div class="platform-logo">CapCut</div>
+                <div class="platform-logo">DeepAI</div>
+                <div class="platform-logo">QuillBot</div>
+                <div class="platform-logo">Suno</div>
+                <div class="platform-logo">ElevenLabs</div>
+                <div class="platform-logo">InVideo</div>
+                <div class="platform-logo">Leonardo</div>
+                <div class="platform-logo">Replit</div>
+                <div class="platform-logo">Consensus</div>
+                <div class="platform-logo">Janitor AI</div>
+                <div class="platform-logo">Runway</div>
+                <div class="platform-logo">Luma AI</div>
             </div>
         </div>
     </section>
@@ -1380,7 +1500,7 @@
                 <h3>联系方式</h3>
                 <p>📧 contact@aisp.com</p>
                 <p>📱 400-123-4567</p>
-                <p>🏢 北京市朝阳区xxx大厦</p>
+                <p>🏢 深圳市南山区华润大厦3201</p>
                 <p>💬 微信: AISP_Service</p>
             </div>
         </div>
@@ -1503,29 +1623,43 @@
             setupInputEvents();
         });
 
-        // 移动端菜单切换（如果需要）
+        // 移动端菜单切换
         function toggleMobileMenu() {
             const navLinks = document.querySelector('.nav-links');
             navLinks.classList.toggle('show');
         }
 
         // 添加移动端菜单按钮（响应式优化）
-        if (window.innerWidth <= 768) {
-            const navbar = document.querySelector('.nav-container');
-            const menuButton = document.createElement('button');
-            menuButton.innerHTML = '☰';
-            menuButton.className = 'mobile-menu-btn';
-            menuButton.style.cssText = `
-                display: block;
-                background: none;
-                border: none;
-                font-size: 1.5rem;
-                color: #333;
-                cursor: pointer;
-            `;
-            menuButton.onclick = toggleMobileMenu;
-            navbar.appendChild(menuButton);
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.innerWidth <= 768) {
+                const navbar = document.querySelector('.nav-container');
+                if (!document.querySelector('.mobile-menu-btn')) {
+                    const menuButton = document.createElement('button');
+                    menuButton.innerHTML = '☰';
+                    menuButton.className = 'mobile-menu-btn';
+                    menuButton.style.cssText = `
+                        display: block;
+                        background: none;
+                        border: none;
+                        font-size: 1.5rem;
+                        color: #333;
+                        cursor: pointer;
+                    `;
+                    menuButton.onclick = toggleMobileMenu;
+                    navbar.appendChild(menuButton);
+                }
+                // 点击菜单项后自动收起菜单
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        document.querySelector('.nav-links').classList.remove('show');
+                    });
+                });
+            }
+        });
+        /* 代码注释：
+           - toggleMobileMenu 控制菜单展开/收起
+           - 菜单项点击后自动收起菜单，提升移动端体验
+        */
     </script>
 
     <style>
