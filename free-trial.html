@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免费体验 - AISP AI搜索表现管理平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 主要内容 */
+        .main-content {
+            margin-top: 100px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .hero-section {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-section {
+            max-width: 800px;
+            margin: -2rem auto 0;
+            padding: 0 2rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .form-header p {
+            color: #4a5568;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1a202c;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .required {
+            color: #e53e3e;
+        }
+
+        .benefits-section {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .benefits-title {
+            color: #1a202c;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .benefits-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4a5568;
+            padding: 0.5rem 0;
+        }
+
+        .benefits-list li::before {
+            content: "✓";
+            color: #38a169;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .privacy-note {
+            margin-top: 1.5rem;
+            color: #718096;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 2rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/aisp_homepage.html" class="logo">AISP</a>
+            <ul class="nav-links">
+                <li><a href="/aisp_homepage.html#product">产品介绍</a></li>
+                <li><a href="/success-stories.html">成功案例</a></li>
+                <li><a href="/consulting.html">咨询专家</a></li>
+                <li><a href="/login.html">登录</a></li>
+                <li><a href="/contact.html" class="nav-cta">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1>开始您的 AI 搜索优化之旅</h1>
+            <p>免费获取您企业的 AI 搜索表现评估报告，发现提升机会</p>
+        </section>
+
+        <!-- 表单区域 -->
+        <section class="form-section">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>申请免费 AISP 评估</h2>
+                    <p>填写以下信息，我们将在24小时内为您生成详细的AI搜索表现报告</p>
+                </div>
+
+                <!-- 福利说明 -->
+                <div class="benefits-section">
+                    <h3 class="benefits-title">您将获得：</h3>
+                    <ul class="benefits-list">
+                        <li>AI搜索表现综合评分</li>
+                        <li>可见度、相关性、情绪、权威性四维分析</li>
+                        <li>竞争对手对比报告</li>
+                        <li>个性化优化建议</li>
+                        <li>30分钟专家咨询</li>
+                        <li>AI搜索优化指南</li>
+                    </ul>
+                </div>
+
+                <form id="trialForm" onsubmit="handleSubmit(event)">
+                    <div class="form-grid">
+                        <!-- 基本信息 -->
+                        <div class="form-group">
+                            <label for="companyName">公司名称 <span class="required">*</span></label>
+                            <input type="text" id="companyName" name="companyName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="website">公司官网 <span class="required">*</span></label>
+                            <input type="url" id="website" name="website" placeholder="https://www.example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="industry">所属行业 <span class="required">*</span></label>
+                            <select id="industry" name="industry" required>
+                                <option value="">请选择行业</option>
+                                <option value="technology">科技/互联网</option>
+                                <option value="finance">金融/保险</option>
+                                <option value="manufacturing">制造业</option>
+                                <option value="education">教育培训</option>
+                                <option value="healthcare">医疗健康</option>
+                                <option value="retail">零售/电商</option>
+                                <option value="consulting">咨询服务</option>
+                                <option value="real-estate">房地产</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="companySize">企业规模</label>
+                            <select id="companySize" name="companySize">
+                                <option value="">请选择</option>
+                                <option value="startup">创业公司（<50人）</option>
+                                <option value="small">小型企业（50-200人）</option>
+                                <option value="medium">中型企业（200-1000人）</option>
+                                <option value="large">大型企业（>1000人）</option>
+                            </select>
+                        </div>
+
+                        <!-- 联系信息 -->
+                        <div class="form-group">
+                            <label for="contactName">联系人姓名 <span class="required">*</span></label>
+                            <input type="text" id="contactName" name="contactName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="position">职位</label>
+                            <input type="text" id="position" name="position" placeholder="如：市场总监、CEO等">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">邮箱地址 <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">手机号码 <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+
+                        <!-- 需求信息 -->
+                        <div class="form-group full-width">
+                            <label for="currentChallenges">当前在数字营销/搜索优化方面面临的主要挑战</label>
+                            <textarea id="currentChallenges" name="currentChallenges" placeholder="请简要描述您在AI搜索、品牌声誉管理或数字营销方面遇到的问题..."></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="goals">期望通过AISP实现的目标</label>
+                            <textarea id="goals" name="goals" placeholder="如：提升品牌在AI搜索中的排名、监测竞争对手表现、优化客户获取等..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            申请免费评估报告
+                        </button>
+                        
+                        <div class="privacy-note">
+                            提交即表示您同意我们的<a href="/privacy.html" style="color: #667eea;">隐私政策</a>和<a href="/terms.html" style="color: #667eea;">服务条款</a>。<br>
+                            我们承诺保护您的信息安全，不会向第三方分享您的数据。
+                        </div>
+                    </div>
+                </form>
+
+                <!-- 加载状态 -->
+                <div class="loading" id="loadingState">
+                    <div class="loading-spinner"></div>
+                    <p>正在提交您的申请，请稍候...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 获取URL参数
+        function getUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const company = urlParams.get('company');
+            if (company) {
+                document.getElementById('companyName').value = decodeURIComponent(company);
+            }
+        }
+
+        // 表单提交处理
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('trialForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingState = document.getElementById('loadingState');
+            
+            // 显示加载状态
+            form.style.display = 'none';
+            loadingState.style.display = 'block';
+            
+            // 收集表单数据
+            const formData = new FormData(form);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            // 模拟提交过程
+            setTimeout(() => {
+                console.log('表单数据:', data);
+                
+                // 模拟成功提交
+                alert('申请提交成功！我们将在24小时内通过邮件发送您的AISP评估报告。');
+                
+                // 跳转到感谢页面
+                window.location.href = '/thank-you.html?type=trial';
+            }, 2000);
+        }
+
+        // 表单验证
+        function validateForm() {
+            const requiredFields = ['companyName', 'website', 'industry', 'contactName', 'email', 'phone'];
+            let isValid = true;
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#e53e3e';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#e2e8f0';
+                }
+            });
+            
+            // 邮箱格式验证
+            const email = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email.value && !emailRegex.test(email.value)) {
+                email.style.borderColor = '#e53e3e';
+                isValid = false;
+            }
+            
+            // 网址格式验证
+            const website = document.getElementById('website');
+            try {
+                new URL(website.value);
+                website.style.borderColor = '#e2e8f0';
+            } catch {
+                if (website.value) {
+                    website.style.borderColor = '#e53e3e';
+                    isValid = false;
+                }
+            }
+            
+            return isValid;
+        }
+
+        // 实时验证
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('blur', validateForm);
+            field.addEventListener('input', function() {
+                if (this.style.borderColor === 'rgb(229, 62, 62)') {
+                    this.style.borderColor = '#e2e8f0';
+                }
+            });
+        });
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            getUrlParams();
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>谢谢您 - AISP AI搜索表现管理平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .thank-you-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 3rem;
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 0 auto 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .thank-you-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .thank-you-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .next-steps {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .next-steps h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .steps-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .steps-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: white;
+            color: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .timer {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .thank-you-container {
+                padding: 2rem 1rem;
+            }
+            
+            .thank-you-title {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .timer {
+                position: static;
+                margin-bottom: 2rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timer" id="autoRedirectTimer">
+        5秒后自动跳转到首页
+    </div>
+
+    <div class="thank-you-container">
+        <div class="success-icon">✅</div>
+        
+        <h1 class="thank-you-title" id="thankYouTitle">谢谢您！</h1>
+        <p class="thank-you-subtitle" id="thankYouSubtitle">
+            您的申请已成功提交，我们已收到您的信息。
+        </p>
+
+        <div class="next-steps">
+            <h3>接下来会发生什么？</h3>
+            <ul class="steps-list" id="stepsList">
+                <li>
+                    <span class="step-number">1</span>
+                    <span>我们会在24小时内通过邮件联系您</span>
+                </li>
+                <li>
+                    <span class="step-number">2</span>
+                    <span>为您生成详细的AISP评估报告</span>
+                </li>
+                <li>
+                    <span class="step-number">3</span>
+                    <span>安排专家与您进行深度咨询</span>
+                </li>
+                <li>
+                    <span class="step-number">4</span>
+                    <span>制定个性化的AI搜索优化方案</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/aisp_homepage.html" class="btn btn-primary">返回首页</a>
+            <a href="/success-stories.html" class="btn btn-secondary">查看成功案例</a>
+        </div>
+
+        <div class="contact-info">
+            <strong>如有紧急需求，请直接联系我们：</strong><br>
+            📧 contact@aisp.com | 📱 400-123-4567 | 💬 微信: AISP_Service
+        </div>
+    </div>
+
+    <script>
+        // 获取URL参数
+        function getUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                type: urlParams.get('type'),
+                service: urlParams.get('service')
+            };
+        }
+
+        // 根据类型自定义内容
+        function customizeContent() {
+            const params = getUrlParams();
+            const titleElement = document.getElementById('thankYouTitle');
+            const subtitleElement = document.getElementById('thankYouSubtitle');
+            const stepsElement = document.getElementById('stepsList');
+
+            switch (params.type) {
+                case 'trial':
+                    subtitleElement.textContent = '您的免费体验申请已成功提交，我们将为您生成专属的AI搜索表现报告。';
+                    break;
+                    
+                case 'contact':
+                    titleElement.textContent = '消息已发送！';
+                    subtitleElement.textContent = '感谢您的留言，我们会尽快回复您的咨询。';
+                    stepsElement.innerHTML = `
+                        <li>
+                            <span class="step-number">1</span>
+                            <span>我们会在2小时内回复您的消息</span>
+                        </li>
+                        <li>
+                            <span class="step-number">2</span>
+                            <span>根据您的需求安排合适的专家</span>
+                        </li>
+                        <li>
+                            <span class="step-number">3</span>
+                            <span>为您提供专业的解决方案</span>
+                        </li>
+                    `;
+                    break;
+                    
+                case 'consultation':
+                    titleElement.textContent = '预约成功！';
+                    subtitleElement.textContent = '您的专家咨询预约已确认，我们会提前准备相关资料。';
+                    stepsElement.innerHTML = `
+                        <li>
+                            <span class="step-number">1</span>
+                            <span>我们会发送会议邀请和准备清单</span>
+                        </li>
+                        <li>
+                            <span class="step-number">2</span>
+                            <span>专家会提前了解您的企业情况</span>
+                        </li>
+                        <li>
+                            <span class="step-number">3</span>
+                            <span>按约定时间进行专业咨询</span>
+                        </li>
+                    `;
+                    break;
+                    
+                default:
+                    // 默认内容已经设置
+                    break;
+            }
+        }
+
+        // 自动跳转倒计时
+        function startAutoRedirect() {
+            let countdown = 5;
+            const timer = document.getElementById('autoRedirectTimer');
+            
+            const interval = setInterval(() => {
+                countdown--;
+                timer.textContent = `${countdown}秒后自动跳转到首页`;
+                
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    window.location.href = '/aisp_homepage.html';
+                }
+            }, 1000);
+
+            // 点击任意地方取消自动跳转
+            document.addEventListener('click', () => {
+                clearInterval(interval);
+                timer.style.display = 'none';
+            });
+        }
+
+        // 添加动画效果
+        function addAnimations() {
+            const container = document.querySelector('.thank-you-container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(30px)';
+            
+            setTimeout(() => {
+                container.style.transition = 'all 0.8s ease';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 100);
+
+            // 步骤列表动画
+            const steps = document.querySelectorAll('.steps-list li');
+            steps.forEach((step, index) => {
+                step.style.opacity = '0';
+                step.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    step.style.transition = 'all 0.5s ease';
+                    step.style.opacity = '1';
+                    step.style.transform = 'translateX(0)';
+                }, 1000 + (index * 200));
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            customizeContent();
+            addAnimations();
+            setTimeout(startAutoRedirect, 2000); // 2秒后开始倒计时
+        });
+
+        // 防止意外离开页面
+        let hasInteracted = false;
+        document.addEventListener('click', () => hasInteracted = true);
+
+        window.addEventListener('beforeunload', function(e) {
+            if (!hasInteracted && window.location.pathname.includes('thank-you')) {
+                e.preventDefault();
+                e.returnValue = '';
+                return '';
+            }
+        });
+    </script>
+</body>
+</html> 

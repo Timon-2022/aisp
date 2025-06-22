@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们 - AISP AI搜索表现管理平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* 主要内容 */
+        .main-content {
+            margin-top: 100px;
+        }
+
+        .hero-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* 联系方式区域 */
+        .contact-info-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            background: #f8fafc;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin: 0 auto 1.5rem;
+        }
+
+        .contact-card h3 {
+            color: #1a202c;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .contact-card p {
+            color: #4a5568;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .contact-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #764ba2;
+        }
+
+        /* 表单区域 */
+        .form-section {
+            padding: 5rem 0;
+            background: #f8fafc;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .form-header p {
+            color: #4a5568;
+            font-size: 1.1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1a202c;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .required {
+            color: #e53e3e;
+        }
+
+        .urgency-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .urgency-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .urgency-option input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .privacy-note {
+            margin-top: 1.5rem;
+            color: #718096;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* 地图区域 */
+        .map-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .map-container {
+            background: #f8fafc;
+            border-radius: 15px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a5568;
+            font-size: 1.2rem;
+            border: 2px dashed #e2e8f0;
+        }
+
+        /* FAQ区域 */
+        .faq-section {
+            padding: 5rem 0;
+            background: #f8fafc;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #1a202c;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #1a202c;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: #667eea;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: #4a5568;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-answer.open {
+            display: block;
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-container {
+                padding: 2rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/aisp_homepage.html" class="logo">AISP</a>
+            <ul class="nav-links">
+                <li><a href="/aisp_homepage.html#product">产品介绍</a></li>
+                <li><a href="/success-stories.html">成功案例</a></li>
+                <li><a href="/consulting.html">咨询专家</a></li>
+                <li><a href="/login.html">登录</a></li>
+                <li><a href="/free-trial.html" class="nav-cta">免费体验</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <h1>联系我们</h1>
+                <p>我们很乐意听到您的声音！无论您有任何问题、建议或需要帮助，请随时与我们联系</p>
+            </div>
+        </section>
+
+        <!-- 联系方式 -->
+        <section class="contact-info-section">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="contact-icon">📧</div>
+                        <h3>邮件联系</h3>
+                        <p>我们会在24小时内回复您的邮件</p>
+                        <a href="mailto:contact@aisp.com" class="contact-link">contact@aisp.com</a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">📱</div>
+                        <h3>电话咨询</h3>
+                        <p>工作日 9:00-18:00 专业客服为您服务</p>
+                        <a href="tel:400-123-4567" class="contact-link">400-123-4567</a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">💬</div>
+                        <h3>微信客服</h3>
+                        <p>扫码添加微信，获得即时支持</p>
+                        <a href="#" class="contact-link">AISP_Service</a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">🏢</div>
+                        <h3>公司地址</h3>
+                        <p>欢迎预约到访，面对面交流</p>
+                        <a href="#" class="contact-link">北京市朝阳区xxx大厦</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 联系表单 -->
+        <section class="form-section">
+            <div class="container">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h2>发送消息</h2>
+                        <p>填写下方表单，我们会尽快与您取得联系</p>
+                    </div>
+
+                    <form id="contactForm" onsubmit="handleSubmit(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name">姓名 <span class="required">*</span></label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">邮箱地址 <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="company">公司名称</label>
+                                <input type="text" id="company" name="company">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">联系电话</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="subject">咨询主题 <span class="required">*</span></label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">请选择咨询主题</option>
+                                    <option value="product">产品咨询</option>
+                                    <option value="pricing">价格咨询</option>
+                                    <option value="technical">技术支持</option>
+                                    <option value="partnership">合作洽谈</option>
+                                    <option value="demo">产品演示</option>
+                                    <option value="other">其他咨询</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="urgency">紧急程度</label>
+                                <div class="urgency-options">
+                                    <div class="urgency-option">
+                                        <input type="radio" id="urgent_low" name="urgency" value="low" checked>
+                                        <label for="urgent_low">一般</label>
+                                    </div>
+                                    <div class="urgency-option">
+                                        <input type="radio" id="urgent_medium" name="urgency" value="medium">
+                                        <label for="urgent_medium">较急</label>
+                                    </div>
+                                    <div class="urgency-option">
+                                        <input type="radio" id="urgent_high" name="urgency" value="high">
+                                        <label for="urgent_high">紧急</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="message">详细描述 <span class="required">*</span></label>
+                                <textarea id="message" name="message" placeholder="请详细描述您的问题或需求..." required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="submit-section">
+                            <button type="submit" class="submit-btn">发送消息</button>
+                            
+                            <div class="privacy-note">
+                                提交即表示您同意我们的<a href="/privacy.html" style="color: #667eea;">隐私政策</a>。<br>
+                                我们承诺保护您的个人信息，不会向第三方分享您的数据。
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 地图区域 -->
+        <section class="map-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>找到我们</h2>
+                    <p>欢迎到访我们的办公室，面对面交流合作</p>
+                </div>
+                
+                <div class="map-container">
+                    🗺️ 这里可以集成地图组件 (如百度地图或高德地图)
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>常见问题</h2>
+                    <p>查看下方常见问题，也许能快速找到您需要的答案</p>
+                </div>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>AISP平台支持哪些AI搜索引擎？</span>
+                            <span class="faq-toggle">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            我们支持主流的AI搜索平台，包括ChatGPT、Google Gemini、Microsoft Copilot、Kimi AI、DeepSeek AI、Claude AI等，并持续增加新的平台支持。
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>如何开始使用AISP服务？</span>
+                            <span class="faq-toggle">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            您可以先申请免费体验，我们会为您生成初步的AI搜索表现报告。然后根据您的需求选择合适的服务套餐，我们会提供专业的优化指导和支持。
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>AISP评分是如何计算的？</span>
+                            <span class="faq-toggle">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            AISP评分基于四个核心维度：可见度、相关性、情绪分析和权威性。我们使用专有算法综合分析您在各大AI平台的搜索表现，生成0-100分的综合评分。
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>多久能看到优化效果？</span>
+                            <span class="faq-toggle">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            根据您的当前状况和优化策略，通常在1-3个月内可以看到明显的改善。我们会提供月度报告，帮您跟踪优化进展。
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>是否提供技术支持？</span>
+                            <span class="faq-toggle">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            是的，我们提供全方位的技术支持，包括平台使用指导、优化策略咨询、问题排查等。高级用户还可以享受专属客户经理服务。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // FAQ折叠展开
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const answer = faqItem.querySelector('.faq-answer');
+            const toggle = element.querySelector('.faq-toggle');
+            
+            // 关闭其他FAQ
+            document.querySelectorAll('.faq-item').forEach(item => {
+                if (item !== faqItem) {
+                    item.classList.remove('open');
+                    item.querySelector('.faq-answer').classList.remove('open');
+                }
+            });
+            
+            // 切换当前FAQ
+            faqItem.classList.toggle('open');
+            answer.classList.toggle('open');
+        }
+
+        // 表单提交处理
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('contactForm');
+            const formData = new FormData(form);
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            console.log('表单数据:', data);
+            
+            // 模拟提交过程
+            const submitBtn = form.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '发送中...';
+            
+            setTimeout(() => {
+                alert('消息发送成功！我们会尽快与您联系。');
+                form.reset();
+                submitBtn.disabled = false;
+                submitBtn.textContent = '发送消息';
+            }, 2000);
+        }
+
+        // 表单验证
+        function validateForm() {
+            const requiredFields = ['name', 'email', 'subject', 'message'];
+            let isValid = true;
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#e53e3e';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#e2e8f0';
+                }
+            });
+            
+            // 邮箱格式验证
+            const email = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email.value && !emailRegex.test(email.value)) {
+                email.style.borderColor = '#e53e3e';
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        // 实时验证
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('blur', validateForm);
+            field.addEventListener('input', function() {
+                if (this.style.borderColor === 'rgb(229, 62, 62)') {
+                    this.style.borderColor = '#e2e8f0';
+                }
+            });
+        });
+
+        // 联系卡片动画
+        function setupCardAnimations() {
+            const cards = document.querySelectorAll('.contact-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            setupCardAnimations();
+            
+            // 检查URL参数，如果有service参数，自动选择对应的咨询主题
+            const urlParams = new URLSearchParams(window.location.search);
+            const service = urlParams.get('service');
+            if (service) {
+                const subjectSelect = document.getElementById('subject');
+                if (service === 'enterprise') {
+                    subjectSelect.value = 'partnership';
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

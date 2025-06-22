@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表板 - AISP AI搜索表现管理平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #333;
+        }
+
+        /* 顶部导航 */
+        .top-nav {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: #f8fafc;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .notification-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8fafc;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-btn::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: #e53e3e;
+            border-radius: 50%;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 80px;
+            width: 250px;
+            height: calc(100vh - 80px);
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 2rem 0;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 2rem;
+            color: #4a5568;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .menu-link:hover,
+        .menu-link.active {
+            background: #f7fafc;
+            color: #667eea;
+            border-right: 3px solid #667eea;
+        }
+
+        .menu-icon {
+            font-size: 1.2rem;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-left: 250px;
+            margin-top: 80px;
+            padding: 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #4a5568;
+            font-size: 1.1rem;
+        }
+
+        /* 仪表板卡片 */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            color: #4a5568;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .change-positive {
+            color: #38a169;
+        }
+
+        .change-negative {
+            color: #e53e3e;
+        }
+
+        /* AISP 分数显示 */
+        .aisp-score-card {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .aisp-score-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .score-number {
+            font-size: 4rem;
+            font-weight: 700;
+        }
+
+        .score-details {
+            flex: 1;
+        }
+
+        .score-label {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .breakdown-score {
+            font-weight: 600;
+        }
+
+        /* 图表区域 */
+        .chart-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: #f8fafc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a5568;
+            font-size: 1.1rem;
+            border: 2px dashed #e2e8f0;
+        }
+
+        /* 最近活动 */
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            color: #1a202c;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        /* 快速操作 */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: #4a5568;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn:hover {
+            border-color: #667eea;
+            background: #f7fafc;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .action-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .aisp-score-card {
+                grid-column: span 1;
+            }
+            
+            .chart-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .score-display {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="logo">AISP</div>
+            <div class="nav-right">
+                <button class="notification-btn">🔔</button>
+                <div class="user-menu">
+                    <div class="user-avatar">张</div>
+                    <span>张明</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="/dashboard.html" class="menu-link active">
+                    <span class="menu-icon">📊</span>
+                    <span>仪表板</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/reports.html" class="menu-link">
+                    <span class="menu-icon">📈</span>
+                    <span>AISP报告</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/monitoring.html" class="menu-link">
+                    <span class="menu-icon">👁️</span>
+                    <span>实时监测</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/competitors.html" class="menu-link">
+                    <span class="menu-icon">🎯</span>
+                    <span>竞争分析</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/optimization.html" class="menu-link">
+                    <span class="menu-icon">🚀</span>
+                    <span>优化建议</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/alerts.html" class="menu-link">
+                    <span class="menu-icon">⚠️</span>
+                    <span>预警通知</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/settings.html" class="menu-link">
+                    <span class="menu-icon">⚙️</span>
+                    <span>设置</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">欢迎回来，张明</h1>
+            <p class="page-subtitle">这是您企业的AI搜索表现概览</p>
+        </div>
+
+        <!-- 快速操作 -->
+        <div class="quick-actions">
+            <a href="/reports/new.html" class="action-btn">
+                <div class="action-icon">📄</div>
+                <div class="action-title">生成新报告</div>
+                <div class="action-desc">创建AISP评估报告</div>
+            </a>
+            <a href="/monitoring/setup.html" class="action-btn">
+                <div class="action-icon">🔍</div>
+                <div class="action-title">设置监测</div>
+                <div class="action-desc">配置关键词监测</div>
+            </a>
+            <a href="/competitors/add.html" class="action-btn">
+                <div class="action-icon">➕</div>
+                <div class="action-title">添加竞争对手</div>
+                <div class="action-desc">分析竞争对手表现</div>
+            </a>
+            <a href="/consulting.html" class="action-btn">
+                <div class="action-icon">💬</div>
+                <div class="action-title">专家咨询</div>
+                <div class="action-desc">预约专业指导</div>
+            </a>
+        </div>
+
+        <!-- 数据概览 -->
+        <div class="dashboard-grid">
+            <!-- AISP综合分数 -->
+            <div class="stat-card aisp-score-card">
+                <div class="score-display">
+                    <div class="score-number" id="aispScore">78</div>
+                    <div class="score-details">
+                        <div class="score-label">AI搜索表现指数</div>
+                        <div class="score-breakdown">
+                            <div class="breakdown-item">
+                                <span>可见度</span>
+                                <span class="breakdown-score">82</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>相关性</span>
+                                <span class="breakdown-score">75</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>情绪分析</span>
+                                <span class="breakdown-score">81</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span>权威性</span>
+                                <span class="breakdown-score">74</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他统计卡片 -->
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">本月查询次数</span>
+                    <div class="stat-icon" style="background: #667eea;">🔍</div>
+                </div>
+                <div class="stat-value">2,847</div>
+                <div class="stat-change change-positive">
+                    <span>↗</span>
+                    <span>+12.5% 较上月</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">正面提及率</span>
+                    <div class="stat-icon" style="background: #38a169;">😊</div>
+                </div>
+                <div class="stat-value">68%</div>
+                <div class="stat-change change-positive">
+                    <span>↗</span>
+                    <span>+5.2% 较上月</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">平台覆盖</span>
+                    <div class="stat-icon" style="background: #764ba2;">🌐</div>
+                </div>
+                <div class="stat-value">8/10</div>
+                <div class="stat-change change-positive">
+                    <span>↗</span>
+                    <span>新增1个平台</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">排名提升</span>
+                    <div class="stat-icon" style="background: #f56565;">📈</div>
+                </div>
+                <div class="stat-value">+15</div>
+                <div class="stat-change change-positive">
+                    <span>↗</span>
+                    <span>平均排名位次</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图表区域 -->
+        <div class="chart-section">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">AISP趋势分析</h3>
+                    <select style="padding: 0.5rem; border-radius: 5px; border: 1px solid #e2e8f0;">
+                        <option>最近30天</option>
+                        <option>最近90天</option>
+                        <option>最近一年</option>
+                    </select>
+                </div>
+                <div class="chart-placeholder">
+                    📊 趋势图表 (集成Chart.js或其他图表库)
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">最近活动</h3>
+                </div>
+                <ul class="activity-list">
+                    <li class="activity-item">
+                        <div class="activity-icon" style="background: #e6fffa; color: #319795;">📊</div>
+                        <div class="activity-content">
+                            <div class="activity-title">生成了新的AISP报告</div>
+                            <div class="activity-time">2小时前</div>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon" style="background: #fef5e7; color: #d69e2e;">⚠️</div>
+                        <div class="activity-content">
+                            <div class="activity-title">检测到负面信息增长</div>
+                            <div class="activity-time">5小时前</div>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon" style="background: #f0fff4; color: #38a169;">✅</div>
+                        <div class="activity-content">
+                            <div class="activity-title">排名优化建议已实施</div>
+                            <div class="activity-time">1天前</div>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon" style="background: #edf2f7; color: #4a5568;">🔍</div>
+                        <div class="activity-content">
+                            <div class="activity-title">新增竞争对手监测</div>
+                            <div class="activity-time">2天前</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // AISP分数动画
+        function animateAISPScore() {
+            const scoreElement = document.getElementById('aispScore');
+            let currentScore = 0;
+            const targetScore = 78;
+            const duration = 2000;
+            const increment = targetScore / (duration / 50);
+            
+            const timer = setInterval(() => {
+                currentScore += increment;
+                if (currentScore >= targetScore) {
+                    currentScore = targetScore;
+                    clearInterval(timer);
+                }
+                scoreElement.textContent = Math.round(currentScore);
+            }, 50);
+        }
+
+        // 侧边栏切换 (移动端)
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // 用户菜单点击
+        function setupUserMenu() {
+            const userMenu = document.querySelector('.user-menu');
+            userMenu.addEventListener('click', function() {
+                // 这里可以显示用户菜单下拉选项
+                console.log('用户菜单点击');
+            });
+        }
+
+        // 通知按钮点击
+        function setupNotifications() {
+            const notificationBtn = document.querySelector('.notification-btn');
+            notificationBtn.addEventListener('click', function() {
+                // 这里可以显示通知列表
+                console.log('通知按钮点击');
+            });
+        }
+
+        // 卡片hover效果
+        function setupCardAnimations() {
+            const cards = document.querySelectorAll('.stat-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(animateAISPScore, 500);
+            setupUserMenu();
+            setupNotifications();
+            setupCardAnimations();
+        });
+
+        // 响应式处理
+        function handleResize() {
+            if (window.innerWidth <= 1024) {
+                // 添加移动端菜单按钮
+                const navContainer = document.querySelector('.nav-container');
+                if (!navContainer.querySelector('.mobile-menu-btn')) {
+                    const menuBtn = document.createElement('button');
+                    menuBtn.innerHTML = '☰';
+                    menuBtn.className = 'mobile-menu-btn';
+                    menuBtn.style.cssText = `
+                        background: none;
+                        border: none;
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                        color: #4a5568;
+                    `;
+                    menuBtn.onclick = toggleSidebar;
+                    navContainer.insertBefore(menuBtn, navContainer.firstChild);
+                }
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        document.addEventListener('DOMContentLoaded', handleResize);
+    </script>
+</body>
+</html> 

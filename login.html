@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - AISP AI搜索表现管理平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="email"]:focus, input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+            position: relative;
+            text-align: center;
+            color: #999;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e1e5e9;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .social-btn:hover {
+            border-color: #667eea;
+            background: #f8fafc;
+        }
+
+        .links {
+            text-align: center;
+        }
+
+        .links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            transform: translateX(-5px);
+        }
+    </style>
+</head>
+<body>
+    <a href="/aisp_homepage.html" class="back-home">
+        ← 返回首页
+    </a>
+
+    <div class="login-container">
+        <div class="logo">AISP</div>
+        <p class="subtitle">登录您的账户</p>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="email">邮箱地址</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="login-btn">登录</button>
+        </form>
+
+        <div class="divider">
+            <span>或</span>
+        </div>
+
+        <div class="social-login">
+            <a href="#" class="social-btn" onclick="socialLogin('wechat')">
+                💬 微信
+            </a>
+            <a href="#" class="social-btn" onclick="socialLogin('google')">
+                🔍 Google
+            </a>
+        </div>
+
+        <div class="links">
+            <a href="/register.html">注册账户</a>
+            <a href="/forgot-password.html">忘记密码？</a>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // 简单验证演示
+            if (email && password) {
+                // 模拟登录成功
+                alert('登录成功！即将跳转到仪表板...');
+                setTimeout(() => {
+                    window.location.href = '/dashboard.html';
+                }, 1000);
+            } else {
+                alert('请填写完整的登录信息');
+            }
+        }
+
+        function socialLogin(platform) {
+            alert(`正在通过${platform === 'wechat' ? '微信' : 'Google'}登录...`);
+            // 实际项目中这里会跳转到对应的OAuth授权页面
+        }
+    </script>
+</body>
+</html> 

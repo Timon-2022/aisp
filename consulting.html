@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专家咨询 - AISP AI搜索表现管理平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 主要内容 */
+        .main-content {
+            margin-top: 100px;
+        }
+
+        .hero-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* 专家团队 */
+        .experts-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #1a202c;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .experts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .expert-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .expert-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .expert-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .expert-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .expert-title {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .expert-bio {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .expert-specialties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .specialty-tag {
+            background: #f7fafc;
+            color: #4a5568;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .book-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 咨询服务 */
+        .services-section {
+            padding: 5rem 0;
+            background: #f8fafc;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            color: #1a202c;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+        }
+
+        .service-features li::before {
+            content: "✓";
+            color: #38a169;
+            font-weight: bold;
+        }
+
+        /* 预约流程 */
+        .booking-process {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+
+        .process-step h3 {
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .process-step p {
+            color: #4a5568;
+        }
+
+        /* CTA区域 */
+        .cta-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            background: white;
+            color: #667eea;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .experts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/aisp_homepage.html" class="logo">AISP</a>
+            <ul class="nav-links">
+                <li><a href="/aisp_homepage.html#product">产品介绍</a></li>
+                <li><a href="/success-stories.html">成功案例</a></li>
+                <li><a href="/consulting.html">咨询专家</a></li>
+                <li><a href="/login.html">登录</a></li>
+                <li><a href="/free-trial.html" class="nav-cta">免费体验</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <h1>AI搜索优化专家咨询</h1>
+                <p>一对一定制化咨询，助您在AI搜索时代获得竞争优势。我们的专家团队拥有丰富的AI搜索优化经验，为您提供最前沿的策略指导。</p>
+            </div>
+        </section>
+
+        <!-- 专家团队 -->
+        <section class="experts-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>我们的专家团队</h2>
+                    <p>来自顶级科技公司和咨询机构的资深专家，为您提供专业的AI搜索优化指导</p>
+                </div>
+
+                <div class="experts-grid">
+                    <div class="expert-card">
+                        <div class="expert-avatar">👨‍💼</div>
+                        <div class="expert-name">张明博士</div>
+                        <div class="expert-title">AI搜索技术专家</div>
+                        <div class="expert-bio">前Google搜索算法工程师，10年AI技术研发经验，专注于搜索引擎优化和机器学习算法优化。</div>
+                        <div class="expert-specialties">
+                            <span class="specialty-tag">AI算法优化</span>
+                            <span class="specialty-tag">搜索引擎技术</span>
+                            <span class="specialty-tag">技术策略</span>
+                        </div>
+                        <a href="#booking" class="book-btn">预约咨询</a>
+                    </div>
+
+                    <div class="expert-card">
+                        <div class="expert-avatar">👩‍💼</div>
+                        <div class="expert-name">李慧敏</div>
+                        <div class="expert-title">数字营销战略顾问</div>
+                        <div class="expert-bio">资深数字营销专家，曾服务于多家知名企业，在品牌声誉管理和AI时代营销策略方面有丰富经验。</div>
+                        <div class="expert-specialties">
+                            <span class="specialty-tag">品牌管理</span>
+                            <span class="specialty-tag">营销策略</span>
+                            <span class="specialty-tag">内容优化</span>
+                        </div>
+                        <a href="#booking" class="book-btn">预约咨询</a>
+                    </div>
+
+                    <div class="expert-card">
+                        <div class="expert-avatar">👨‍🔬</div>
+                        <div class="expert-name">王建华教授</div>
+                        <div class="expert-title">AI研究学者</div>
+                        <div class="expert-bio">清华大学计算机系教授，AI领域权威专家，在自然语言处理和智能搜索方面有深入研究。</div>
+                        <div class="expert-specialties">
+                            <span class="specialty-tag">NLP技术</span>
+                            <span class="specialty-tag">智能搜索</span>
+                            <span class="specialty-tag">学术研究</span>
+                        </div>
+                        <a href="#booking" class="book-btn">预约咨询</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 咨询服务 -->
+        <section class="services-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>咨询服务套餐</h2>
+                    <p>根据您的需求选择最适合的咨询服务</p>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">💬</div>
+                        <h3>基础咨询</h3>
+                        <div class="service-price">免费</div>
+                        <p>30分钟免费咨询，了解AI搜索基础知识和初步优化建议。</p>
+                        <ul class="service-features">
+                            <li>AI搜索现状分析</li>
+                            <li>基础优化建议</li>
+                            <li>问题解答</li>
+                        </ul>
+                        <a href="#booking" class="book-btn">立即预约</a>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">🎯</div>
+                        <h3>深度咨询</h3>
+                        <div class="service-price">¥2,999</div>
+                        <p>2小时深度咨询，制定个性化AI搜索优化策略和实施方案。</p>
+                        <ul class="service-features">
+                            <li>全面诊断分析</li>
+                            <li>定制优化方案</li>
+                            <li>竞争对手分析</li>
+                            <li>实施指导</li>
+                        </ul>
+                        <a href="#booking" class="book-btn">立即预约</a>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">🚀</div>
+                        <h3>专项顾问</h3>
+                        <div class="service-price">¥9,999/月</div>
+                        <p>长期合作顾问服务，持续优化和指导，确保AI搜索表现持续提升。</p>
+                        <ul class="service-features">
+                            <li>月度策略评估</li>
+                            <li>持续优化指导</li>
+                            <li>24/7专家支持</li>
+                            <li>定期报告分析</li>
+                        </ul>
+                        <a href="#booking" class="book-btn">立即预约</a>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-icon">🏢</div>
+                        <h3>企业定制</h3>
+                        <div class="service-price">定制报价</div>
+                        <p>针对大型企业的定制化咨询服务，包括团队培训和内部流程优化。</p>
+                        <ul class="service-features">
+                            <li>企业诊断分析</li>
+                            <li>团队培训</li>
+                            <li>流程优化</li>
+                            <li>专属客户经理</li>
+                        </ul>
+                        <a href="#booking" class="book-btn">联系咨询</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 预约流程 -->
+        <section class="booking-process" id="booking">
+            <div class="container">
+                <div class="section-header">
+                    <h2>预约流程</h2>
+                    <p>简单4步，开始您的AI搜索优化之旅</p>
+                </div>
+
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h3>选择专家</h3>
+                        <p>根据您的需求选择最适合的专家和咨询套餐</p>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h3>预约时间</h3>
+                        <p>选择您方便的时间段，我们会安排专家与您对接</p>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h3>准备资料</h3>
+                        <p>我们会提前发送准备清单，帮您充分利用咨询时间</p>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h3>开始咨询</h3>
+                        <p>通过视频会议或面对面方式进行专业咨询</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA区域 -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>立即开始您的AI搜索优化之旅</h2>
+                <p>不要让您的企业在AI搜索时代落后，现在就预约专家咨询</p>
+                <div class="cta-buttons">
+                    <a href="/booking.html" class="cta-primary">预约免费咨询</a>
+                    <a href="/contact.html" class="cta-secondary">联系我们</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 平滑滚动到预约区域
+        document.querySelectorAll('a[href="#booking"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('booking').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 专家卡片hover效果增强
+        document.querySelectorAll('.expert-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // 服务卡片点击跟踪
+        document.querySelectorAll('.service-card .book-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const serviceName = this.closest('.service-card').querySelector('h3').textContent;
+                console.log(`用户点击预约服务: ${serviceName}`);
+                
+                // 这里可以添加数据埋点或跳转到具体的预约页面
+                if (serviceName === '企业定制') {
+                    e.preventDefault();
+                    window.location.href = '/contact.html?service=enterprise';
+                } else {
+                    e.preventDefault();
+                    window.location.href = `/booking.html?service=${encodeURIComponent(serviceName)}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

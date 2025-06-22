@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成功案例 - AISP AI搜索表现管理平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* 主要内容 */
+        .main-content {
+            margin-top: 100px;
+        }
+
+        .hero-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* 统计数据 */
+        .stats-section {
+            padding: 3rem 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #4a5568;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* 案例列表 */
+        .cases-section {
+            padding: 5rem 0;
+            background: #f8fafc;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: #1a202c;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .case-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .case-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .case-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .case-company {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .case-industry {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .case-content {
+            padding: 2rem;
+        }
+
+        .case-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+
+        .metric-label {
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+
+        .case-description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .case-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: #e2e8f0;
+            color: #4a5568;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .read-more-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 筛选区域 */
+        .filter-section {
+            padding: 2rem 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            color: #4a5568;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        /* CTA区域 */
+        .cta-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            background: white;
+            color: #667eea;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .case-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/aisp_homepage.html" class="logo">AISP</a>
+            <ul class="nav-links">
+                <li><a href="/aisp_homepage.html#product">产品介绍</a></li>
+                <li><a href="/success-stories.html">成功案例</a></li>
+                <li><a href="/consulting.html">咨询专家</a></li>
+                <li><a href="/login.html">登录</a></li>
+                <li><a href="/free-trial.html" class="nav-cta">免费体验</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <h1>客户成功案例</h1>
+                <p>看看我们如何帮助各行业企业在AI搜索时代获得竞争优势，实现业务增长</p>
+            </div>
+        </section>
+
+        <!-- 统计数据 -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">200+</span>
+                        <span class="stat-label">服务企业</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">85%</span>
+                        <span class="stat-label">AI搜索排名提升</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">40%</span>
+                        <span class="stat-label">平均流量增长</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">客户满意度</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 筛选区域 -->
+        <section class="filter-section">
+            <div class="container">
+                <div class="filter-container">
+                    <button class="filter-btn active" data-filter="all">全部案例</button>
+                    <button class="filter-btn" data-filter="technology">科技/互联网</button>
+                    <button class="filter-btn" data-filter="finance">金融服务</button>
+                    <button class="filter-btn" data-filter="manufacturing">制造业</button>
+                    <button class="filter-btn" data-filter="education">教育培训</button>
+                    <button class="filter-btn" data-filter="retail">零售/电商</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 案例列表 -->
+        <section class="cases-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>真实案例分享</h2>
+                    <p>每一个成功案例都代表着我们对AI搜索优化的深度理解和专业执行</p>
+                </div>
+
+                <div class="cases-grid" id="casesGrid">
+                    <!-- 科技公司案例 -->
+                    <div class="case-card" data-category="technology">
+                        <div class="case-header">
+                            <div class="case-company">某知名AI科技公司</div>
+                            <div class="case-industry">人工智能 • 中型企业</div>
+                        </div>
+                        <div class="case-content">
+                            <div class="case-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">+55%</span>
+                                    <span class="metric-label">AI推荐排名</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+68%</span>
+                                    <span class="metric-label">品牌曝光</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+42%</span>
+                                    <span class="metric-label">客流增长</span>
+                                </div>
+                            </div>
+                            <div class="case-description">
+                                该公司在AI搜索中存在大量负面误导信息，通过AISP系统性分析和优化，成功重塑了品牌在AI搜索中的形象，客户询盘量显著提升。
+                            </div>
+                            <div class="case-tags">
+                                <span class="tag">负面信息处理</span>
+                                <span class="tag">品牌形象重塑</span>
+                                <span class="tag">技术内容优化</span>
+                            </div>
+                            <a href="/case-study/tech-company.html" class="read-more-btn">查看详细案例 →</a>
+                        </div>
+                    </div>
+
+                    <!-- 金融服务案例 -->
+                    <div class="case-card" data-category="finance">
+                        <div class="case-header">
+                            <div class="case-company">某大型金融集团</div>
+                            <div class="case-industry">金融服务 • 大型企业</div>
+                        </div>
+                        <div class="case-content">
+                            <div class="case-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">+73%</span>
+                                    <span class="metric-label">权威性提升</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+48%</span>
+                                    <span class="metric-label">正面评价</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+35%</span>
+                                    <span class="metric-label">咨询转化</span>
+                                </div>
+                            </div>
+                            <div class="case-description">
+                                建立了完整的AI搜索声誉管理体系，通过专业内容策略和持续监测优化，在竞争激烈的金融市场中建立了强大的数字权威性。
+                            </div>
+                            <div class="case-tags">
+                                <span class="tag">权威性建设</span>
+                                <span class="tag">专业内容策略</span>
+                                <span class="tag">声誉管理</span>
+                            </div>
+                            <a href="/case-study/finance-company.html" class="read-more-btn">查看详细案例 →</a>
+                        </div>
+                    </div>
+
+                    <!-- 制造业案例 -->
+                    <div class="case-card" data-category="manufacturing">
+                        <div class="case-header">
+                            <div class="case-company">某智能制造企业</div>
+                            <div class="case-industry">智能制造 • 中型企业</div>
+                        </div>
+                        <div class="case-content">
+                            <div class="case-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">+65%</span>
+                                    <span class="metric-label">海外曝光</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+80%</span>
+                                    <span class="metric-label">询盘增长</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+45%</span>
+                                    <span class="metric-label">订单转化</span>
+                                </div>
+                            </div>
+                            <div class="case-description">
+                                针对B2B制造业特点，优化了技术专业内容在AI搜索中的表现，成功拓展了海外市场，获得了更多优质客户。
+                            </div>
+                            <div class="case-tags">
+                                <span class="tag">B2B市场拓展</span>
+                                <span class="tag">技术内容优化</span>
+                                <span class="tag">海外市场</span>
+                            </div>
+                            <a href="/case-study/manufacturing-company.html" class="read-more-btn">查看详细案例 →</a>
+                        </div>
+                    </div>
+
+                    <!-- 教育培训案例 -->
+                    <div class="case-card" data-category="education">
+                        <div class="case-header">
+                            <div class="case-company">某在线教育平台</div>
+                            <div class="case-industry">在线教育 • 成长型企业</div>
+                        </div>
+                        <div class="case-content">
+                            <div class="case-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">+90%</span>
+                                    <span class="metric-label">课程推荐</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+75%</span>
+                                    <span class="metric-label">用户注册</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+60%</span>
+                                    <span class="metric-label">付费转化</span>
+                                </div>
+                            </div>
+                            <div class="case-description">
+                                通过优化课程内容在AI搜索中的展现，提升了教育品牌的专业形象，获得了更多学员信任和报名转化。
+                            </div>
+                            <div class="case-tags">
+                                <span class="tag">教育品牌建设</span>
+                                <span class="tag">内容优化</span>
+                                <span class="tag">用户转化</span>
+                            </div>
+                            <a href="/case-study/education-company.html" class="read-more-btn">查看详细案例 →</a>
+                        </div>
+                    </div>
+
+                    <!-- 零售电商案例 -->
+                    <div class="case-card" data-category="retail">
+                        <div class="case-header">
+                            <div class="case-company">某时尚品牌</div>
+                            <div class="case-industry">时尚零售 • 中型企业</div>
+                        </div>
+                        <div class="case-content">
+                            <div class="case-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">+85%</span>
+                                    <span class="metric-label">产品推荐</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+95%</span>
+                                    <span class="metric-label">品牌提及</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+70%</span>
+                                    <span class="metric-label">销售增长</span>
+                                </div>
+                            </div>
+                            <div class="case-description">
+                                在AI搜索时代重新定义了时尚品牌的数字形象，通过精准的内容策略和品牌定位，在年轻消费者群体中建立了强大的品牌影响力。
+                            </div>
+                            <div class="case-tags">
+                                <span class="tag">品牌年轻化</span>
+                                <span class="tag">时尚内容</span>
+                                <span class="tag">社交电商</span>
+                            </div>
+                            <a href="/case-study/retail-company.html" class="read-more-btn">查看详细案例 →</a>
+                        </div>
+                    </div>
+
+                    <!-- 更多案例 -->
+                    <div class="case-card" data-category="technology">
+                        <div class="case-header">
+                            <div class="case-company">某SaaS软件公司</div>
+                            <div class="case-industry">企业软件 • 小型企业</div>
+                        </div>
+                        <div class="case-content">
+                            <div class="case-metrics">
+                                <div class="metric">
+                                    <span class="metric-value">+120%</span>
+                                    <span class="metric-label">试用注册</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+88%</span>
+                                    <span class="metric-label">产品曝光</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-value">+55%</span>
+                                    <span class="metric-label">付费转化</span>
+                                </div>
+                            </div>
+                            <div class="case-description">
+                                从零开始建立了SaaS产品在AI搜索中的数字存在，通过精准定位和内容策略，快速获得了目标客户的认知和信任。
+                            </div>
+                            <div class="case-tags">
+                                <span class="tag">SaaS营销</span>
+                                <span class="tag">产品定位</span>
+                                <span class="tag">客户获取</span>
+                            </div>
+                            <a href="/case-study/saas-company.html" class="read-more-btn">查看详细案例 →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA区域 -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>您的成功案例即将诞生</h2>
+                <p>不要让您的企业在AI搜索时代落后，现在就开始您的优化之旅</p>
+                <div class="cta-buttons">
+                    <a href="/free-trial.html" class="cta-primary">申请免费评估</a>
+                    <a href="/consulting.html" class="cta-secondary">咨询专家</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 筛选功能
+        function setupFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const caseCards = document.querySelectorAll('.case-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 更新按钮状态
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+
+                    // 筛选案例
+                    caseCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                            card.style.animation = 'fadeIn 0.5s ease';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        // 案例卡片动画
+        function setupCardAnimations() {
+            const cards = document.querySelectorAll('.case-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        }
+
+        // 统计数字动画
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const finalValue = target.textContent;
+                        const numValue = parseInt(finalValue);
+                        const duration = 2000;
+                        const increment = numValue / (duration / 50);
+                        let current = 0;
+
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= numValue) {
+                                current = numValue;
+                                clearInterval(timer);
+                                target.textContent = finalValue;
+                            } else {
+                                target.textContent = Math.round(current) + (finalValue.includes('%') ? '%' : '+');
+                            }
+                        }, 50);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statNumbers.forEach(stat => observer.observe(stat));
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            setupFilters();
+            setupCardAnimations();
+            animateStats();
+        });
+
+        // 添加CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html> 
